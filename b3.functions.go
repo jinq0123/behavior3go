@@ -10,8 +10,6 @@ import (
 	"reflect"
 )
 
-
-
 //生成32位md5字串
 func getMd5String(s string) string {
 	h := md5.New()
@@ -59,13 +57,6 @@ func CreateUUID() string {
 	*/
 }
 
-func MinInt(a int, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
-
 //定义注册结构map
 type RegisterStructMaps struct {
 	maps map[string]reflect.Type
@@ -104,5 +95,3 @@ func (rsm *RegisterStructMaps) CheckElem(name string) bool {
 func (rsm *RegisterStructMaps) Register(name string, c interface{}) {
 	rsm.maps[name] = reflect.TypeOf(c).Elem()
 }
-
-

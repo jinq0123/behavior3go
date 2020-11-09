@@ -45,6 +45,9 @@ bin/b3.json为行为树的数据，在编辑器中新建任意工程，选择（
 
 jinqing 分支有以下更改：
 
+todo:
+* use github.com/satori/go.uuid
+
 ## 其他的参考
 
 - 一些节点的概念 http://note.youdao.com/noteshare?id=4f46dc2144ea62b55f597630f5e666b4&sub=FF0B4E1D7916473E8DFC7242CFC62B69

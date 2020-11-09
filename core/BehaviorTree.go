@@ -147,7 +147,7 @@ func (this *BehaviorTree) SetDebug(debug interface{}) {
 	this.debug = debug
 }
 
-func  (this *BehaviorTree) GetRoot() IBaseNode {
+func (this *BehaviorTree) GetRoot() IBaseNode {
 	return this.root
 }
 
@@ -297,7 +297,7 @@ func (this *BehaviorTree) Tick(target interface{}, blackboard *Blackboard) b3.St
 
 	// does not close if it is still open in this tick
 	var start = 0
-	for i := 0; i < b3.MinInt(len(lastOpenNodes), len(currOpenNodes)); i++ {
+	for i := 0; i < minInt(len(lastOpenNodes), len(currOpenNodes)); i++ {
 		start = i + 1
 		if lastOpenNodes[i] != currOpenNodes[i] {
 			break
@@ -347,5 +347,11 @@ func printNode(root IBaseNode, blk int) {
 			}
 		}
 	}
+}
 
+func minInt(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
