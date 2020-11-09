@@ -7,17 +7,7 @@ import (
 	. "github.com/magicsea/behavior3go/config"
 )
 
-type IBaseWrapper interface {
-	_execute(tick *Tick) b3.Status
-	_enter(tick *Tick)
-	_open(tick *Tick)
-	_tick(tick *Tick) b3.Status
-	_close(tick *Tick)
-	_exit(tick *Tick)
-}
 type IBaseNode interface {
-	IBaseWrapper
-
 	Ctor()
 	Initialize(params *BTNodeCfg)
 	GetCategory() string
@@ -26,6 +16,13 @@ type IBaseNode interface {
 	GetTitle() string
 	SetBaseNodeWorker(worker IBaseWorker)
 	GetBaseNodeWorker() IBaseWorker
+
+	_execute(tick *Tick) b3.Status
+	_enter(tick *Tick)
+	_open(tick *Tick)
+	_tick(tick *Tick) b3.Status
+	_close(tick *Tick)
+	_exit(tick *Tick)
 }
 
 /**

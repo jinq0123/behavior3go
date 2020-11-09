@@ -47,6 +47,8 @@ jinqing 分支有以下更改：
 
 todo:
 * use github.com/satori/go.uuid
+* move b3.Status, b3.Category into core/
+* 将js注释改写为go注释
 
 ## 其他的参考
 
