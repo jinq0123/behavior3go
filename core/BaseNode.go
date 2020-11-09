@@ -18,11 +18,7 @@ type IBaseNode interface {
 	GetBaseNodeWorker() IBaseWorker
 
 	_execute(tick *Tick) b3.Status
-	_enter(tick *Tick)
-	_open(tick *Tick)
-	_tick(tick *Tick) b3.Status
 	_close(tick *Tick)
-	_exit(tick *Tick)
 }
 
 /**
