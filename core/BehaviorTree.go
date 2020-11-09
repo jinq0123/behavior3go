@@ -288,7 +288,7 @@ func (this *BehaviorTree) Tick(target interface{}, blackboard *Blackboard) b3.St
 	tick.tree = this
 
 	/* TICK NODE */
-	var state = this.root._execute(tick)
+	var state = this.root.Execute(tick)
 
 	/* CLOSE NODES FROM LAST TICK, IF NEEDED */
 	var lastOpenNodes = blackboard._getTreeData(this.id).OpenNodes

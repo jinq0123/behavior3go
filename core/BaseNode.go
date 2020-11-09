@@ -17,7 +17,6 @@ type IBaseNode interface {
 	SetBaseNodeWorker(worker IBaseWorker)
 	GetBaseNodeWorker() IBaseWorker
 
-	_execute(tick *Tick) b3.Status
 	_close(tick *Tick)
 }
 
@@ -38,6 +37,7 @@ type IBaseNode interface {
  * can override. They are `enter`, `open`, `tick`, `close` and `exit`. See
  * their documentation to know more. These callbacks are called inside the
  * `_execute` method, which is called in the tree traversal.
+ * TODO: changed to OnEnter(), OnOpen(), OnTick(), OnClose(), OnExit()
  *
  * @module b3
  * @class BaseNode
