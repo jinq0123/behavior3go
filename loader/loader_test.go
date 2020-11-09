@@ -52,7 +52,7 @@ func TestLoadTree(t *testing.T) {
 	treeConfig, ok := LoadTreeCfg("tree.json")
 	if ok {
 		//自定义节点注册
-		maps := b3.NewRegisterStructMaps()
+		maps := NewRegisterStructMaps()
 		maps.Register("Log", new(LogTest))
 
 		//载入

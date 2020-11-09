@@ -1,4 +1,4 @@
-package behavior3go
+package loader
 
 import (
 	"fmt"

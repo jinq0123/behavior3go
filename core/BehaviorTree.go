@@ -179,7 +179,7 @@ func (this *BehaviorTree) GetRoot() IBaseNode {
  * @param {Object} data The data structure representing a Behavior Tree.
  * @param {Object} [names] A namespace or dict containing custom nodes.
 **/
-func (this *BehaviorTree) Load(data *config.BTTreeCfg, maps *b3.RegisterStructMaps, extMaps *b3.RegisterStructMaps) {
+func (this *BehaviorTree) Load(data *config.BTTreeCfg, maps INodeCreator, extMaps INodeCreator) {
 	this.title = data.Title             //|| this.title;
 	this.description = data.Description // || this.description;
 	this.properties = data.Properties   // || this.properties;
