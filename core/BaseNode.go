@@ -1,15 +1,13 @@
 package core
 
 import (
-	_ "fmt"
-
 	b3 "github.com/magicsea/behavior3go"
-	. "github.com/magicsea/behavior3go/config"
+	"github.com/magicsea/behavior3go/config"
 )
 
 type IBaseNode interface {
 	Ctor()
-	Initialize(params *BTNodeCfg)
+	Initialize(params *config.BTNodeCfg)
 	GetCategory() string
 	Execute(tick *Tick) b3.Status
 	GetName() string
@@ -136,7 +134,7 @@ func (this *BaseNode) GetBaseNodeWorker() IBaseWorker {
  * @method Initialize
  * @construCtor
 **/
-func (this *BaseNode) Initialize(params *BTNodeCfg) {
+func (this *BaseNode) Initialize(params *config.BTNodeCfg) {
 	//this.id = b3.CreateUUID()
 	//this.title       = this.title || this.name
 	this.description = ""
@@ -162,25 +160,23 @@ func (this *BaseNode) GetID() string {
 func (this *BaseNode) GetName() string {
 	return this.name
 }
+
 func (this *BaseNode) GetTitle() string {
-	//fmt.Println("GetTitle ", this.title)
 	return this.title
 }
 
+// Execute tick.
 /**
  * This is the main method to propagate the tick signal to this node. This
- * method calls all callbacks: `enter`, `open`, `tick`, `close`, and
- * `exit`. It only opens a node if it is not already open. In the same
+ * method calls all callbacks: `OnEnter`, `OnOpen`, `OnTick`, `OnClose`, and
+ * `OnExit`. It only opens a node if it is not already open. In the same
  * way, this method only close a node if the node  returned a status
  * different of `b3.RUNNING`.
  *
- * @method _execute
  * @param {Tick} tick A tick instance.
  * @return {Constant} The tick state.
- * @protected
 **/
-func (this *BaseNode) _execute(tick *Tick) b3.Status {
-	//fmt.Println("_execute :", this.title)
+func (this *BaseNode) Execute(tick *Tick) b3.Status {
 	// ENTER
 	this._enter(tick)
 
@@ -201,9 +197,6 @@ func (this *BaseNode) _execute(tick *Tick) b3.Status {
 	this._exit(tick)
 
 	return status
-}
-func (this *BaseNode) Execute(tick *Tick) b3.Status {
-	return this._execute(tick)
 }
 
 /**

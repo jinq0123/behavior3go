@@ -49,6 +49,16 @@ todo:
 * use github.com/satori/go.uuid
 * move b3.Status, b3.Category into core/
 * 将js注释改写为go注释
+* Category 改用 enum
+	+ category 仅用于 Debug
+	+ 不要字符串比较，只需统一处理children
+* Blackboard 分内部使用和外部使用2种
+* RegisterStructMaps 注册和创建用 IBaseNode
+* Initialize(setting *BTNodeCfg) 改成 NewXXX(setting)
+	+ maps.Register("Log", new(LogTest)) 改成 maps.Register("Log", NewLogTest)
+	+ 在 init() 中注册，Node 定义和注册在同一文件
+* 不需要 config, 直接加载后返回树
+* printNode 格式不齐
 
 ## 其他的参考
 
