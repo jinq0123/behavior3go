@@ -33,7 +33,7 @@ import (
  * Manual construction of a Behavior Tree
  * --------------------------------------
  *
- *     var tree = new b3.BehaviorTree();
+ *     tree := NewBehaviorTree()
  *
  *     tree.root = new b3.Sequence({children:[
  *       new b3.Priority({children:[
@@ -115,7 +115,7 @@ type BehaviorTree struct {
 	dumpInfo *config.BTTreeCfg
 }
 
-func NewBeTree() *BehaviorTree {
+func NewBehaviorTree() *BehaviorTree {
 	tree := &BehaviorTree{}
 	tree.Initialize()
 	return tree
@@ -149,6 +149,10 @@ func (this *BehaviorTree) SetDebug(debug interface{}) {
 
 func (this *BehaviorTree) GetRoot() IBaseNode {
 	return this.root
+}
+
+func (this *BehaviorTree) SetRoot(root IBaseNode) {
+	this.root = root
 }
 
 /**

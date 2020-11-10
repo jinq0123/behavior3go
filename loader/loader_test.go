@@ -13,14 +13,6 @@ import (
 	//. "github.com/magicsea/behavior3go/decorators"
 )
 
-type Test struct {
-	value string
-}
-
-func (test *Test) Print() {
-	fmt.Println(test.value)
-}
-
 func TestExample(t *testing.T) {
 	maps := createBaseStructMaps()
 	if data, err := maps.New("Runner"); err != nil {
