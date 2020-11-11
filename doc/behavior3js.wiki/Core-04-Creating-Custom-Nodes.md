@@ -1,6 +1,6 @@
 ## Common Features
 
-Before creating your own nodes, please read the [General Guidelines](Core 03 General Guidelines)
+Before creating your own nodes, please read the [General Guidelines](Core%2003%20General%20Guidelines.md)
 
 ## Composite
 
