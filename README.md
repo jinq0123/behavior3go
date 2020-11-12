@@ -64,6 +64,7 @@ todo:
 	+ 根节点 RtUuid = 节点UUID
 	+ 节点 RtUuid = hashUUID(父节点RtUuid + 节点UUID)
 	+ 可保证每个节点的 RtUuid 唯一，解决引用同一子树时 UUID 相同的问题
+* properties 只需支持 float, string
 
 ## 其他的参考
 
