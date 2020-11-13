@@ -140,7 +140,7 @@ func (this *Tick) _tickNode(node *BaseNode) {
  * @param {Object} node The node that called this method.
  * @protected
 **/
-// TODO: rename to _closeHeadNode()
+// TODO: rename to _closeTailNode()
 func (this *Tick) _closeNode(node *BaseNode) {
 	// TODO: call debug here
 
