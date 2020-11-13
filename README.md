@@ -44,6 +44,7 @@ bin/b3.json为行为树的数据，在编辑器中新建任意工程，选择（
 ### jinqing 分支
 
 jinqing 分支有以下更改：
+* openNodes 数组改为 map, 以支持 Parallel 节点
 
 todo:
 * use github.com/satori/go.uuid

@@ -1,5 +1,9 @@
 package core
 
+import (
+	"github.com/magicsea/behavior3go/config"
+)
+
 /**
  * A new Tick object is instantiated every tick by BehaviorTree. It is passed
  * as parameter to the nodes through the tree during the traversal.
@@ -43,12 +47,9 @@ type Tick struct {
 	**/
 	Blackboard *Blackboard
 	/**
-	 * The list of open nodes. Update during the tree traversal.
-	 * @property {Array} _openNodes
-	 * @protected
-	 * @readOnly
+	 * The map from IDs to open nodes. Update during the tree traversal.
 	**/
-	_openNodes []IBaseNode
+	_openNodes map[config.NodeID]IBaseNode
 
 	/**
 	 * The list of open subtree node.
@@ -84,7 +85,7 @@ func (this *Tick) GetTree() *BehaviorTree {
 **/
 func (this *Tick) _enterNode(node IBaseNode) {
 	this._nodeCount++
-	this._openNodes = append(this._openNodes, node)
+	this._openNodes[node.GetID()] = node
 	// TODO: call debug here
 }
 
@@ -115,14 +116,9 @@ func (this *Tick) _tickNode(node *BaseNode) {
  * @param {Object} node The node that called this method.
  * @protected
 **/
-// TODO: rename to _closeTailNode()
-func (this *Tick) _closeNode(node *BaseNode) {
+func (this *Tick) _closeNode(nodeID config.NodeID) {
 	// TODO: call debug here
-
-	ulen := len(this._openNodes)
-	if ulen > 0 {
-		this._openNodes = this._openNodes[:ulen-1]
-	}
+	delete(this._openNodes, nodeID)
 }
 
 func (this *Tick) pushSubtreeNode(node *SubTree) {

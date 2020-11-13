@@ -10,6 +10,7 @@ type IBaseNode interface {
 	Initialize(params *config.BTNodeCfg)
 	GetCategory() string
 	Execute(tick *Tick) b3.Status
+	GetID() config.NodeID
 	GetName() string
 	GetTitle() string
 	SetBaseNodeWorker(worker IBaseWorker)
@@ -44,10 +45,8 @@ type BaseNode struct {
 	IBaseWorker
 	/**
 	 * Node ID.
-	 * @property {string} id
-	 * @readonly
 	**/
-	id string
+	id config.NodeID
 
 	/**
 	 * Node name. Must be a unique identifier, preferable the same name of the
@@ -135,13 +134,13 @@ func (this *BaseNode) GetBaseNodeWorker() IBaseWorker {
  * @construCtor
 **/
 func (this *BaseNode) Initialize(params *config.BTNodeCfg) {
-	//this.id = b3.CreateUUID()
+	// TODO: this.id = b3.CreateUUID()
 	//this.title       = this.title || this.name
 	this.description = ""
 	this.parameters = make(map[string]interface{})
 	this.properties = make(map[string]interface{})
 
-	this.id = params.Id //|| node.id;
+	this.id = params.ID
 	this.name = params.Name
 	this.title = params.Title             //|| node.title;
 	this.description = params.Description // || node.description;
@@ -153,7 +152,7 @@ func (this *BaseNode) GetCategory() string {
 	return this.category
 }
 
-func (this *BaseNode) GetID() string {
+func (this *BaseNode) GetID() config.NodeID {
 	return this.id
 }
 
@@ -243,7 +242,7 @@ func (this *BaseNode) _tick(tick *Tick) b3.Status {
  * @protected
 **/
 func (this *BaseNode) _close(tick *Tick) {
-	tick._closeNode(this)
+	tick._closeNode(this.id)
 	tick.Blackboard.Set("isOpen", false, tick.tree.id, this.id)
 	this.OnClose(tick)
 }

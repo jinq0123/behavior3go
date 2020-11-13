@@ -3,7 +3,10 @@ package core
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/magicsea/behavior3go/config"
 )
+
 /**
  * The Blackboard is the memory structure required by `BehaviorTree` and its
  * nodes. It only have 2 public methods: `set` and `get`. These methods works
@@ -45,13 +48,16 @@ import (
 //------------------------TreeData-------------------------
 type TreeData struct {
 	NodeMemory     *Memory
-	OpenNodes      []IBaseNode
+	OpenNodes      map[config.NodeID]IBaseNode
 	TraversalDepth int
 	TraversalCycle int
 }
 
 func NewTreeData() *TreeData {
-	return &TreeData{NewMemory(), make([]IBaseNode, 0), 0, 0}
+	return &TreeData{
+		NodeMemory: NewMemory(),
+		OpenNodes:  map[config.NodeID]IBaseNode{},
+	}
 }
 
 //------------------------Memory-------------------------
@@ -70,8 +76,9 @@ func (this *Memory) Set(key string, val interface{}) {
 	this._memory[key] = val
 }
 func (this *Memory) Remove(key string) {
-	delete(this._memory,key)
+	delete(this._memory, key)
 }
+
 //------------------------TreeMemory-------------------------
 type TreeMemory struct {
 	*Memory
@@ -126,7 +133,7 @@ func (this *Blackboard) _getTreeMemory(treeScope string) *TreeMemory {
  * @return {Object} The node memory.
  * @protected
 **/
-func (this *Blackboard) _getNodeMemory(treeMemory *TreeMemory, nodeScope string) *Memory {
+func (this *Blackboard) _getNodeMemory(treeMemory *TreeMemory, nodeScope config.NodeID) *Memory {
 	memory := treeMemory._nodeMemory
 	if _, ok := memory[nodeScope]; !ok {
 		memory[nodeScope] = NewMemory()
@@ -149,7 +156,7 @@ func (this *Blackboard) _getNodeMemory(treeMemory *TreeMemory, nodeScope string)
  * @return {Object} A memory object.
  * @protected
 **/
-func (this *Blackboard) _getMemory(treeScope, nodeScope string) *Memory {
+func (this *Blackboard) _getMemory(treeScope string, nodeScope config.NodeID) *Memory {
 	var memory = this._baseMemory
 
 	if len(treeScope) > 0 {
@@ -179,7 +186,7 @@ func (this *Blackboard) _getMemory(treeScope, nodeScope string) *Memory {
  *                           memory.
  * @param {String} nodeScope The node id if accessing the node memory.
 **/
-func (this *Blackboard) Set(key string, value interface{}, treeScope, nodeScope string) {
+func (this *Blackboard) Set(key string, value interface{}, treeScope string, nodeScope config.NodeID) {
 	var memory = this._getMemory(treeScope, nodeScope)
 	memory.Set(key, value)
 }
@@ -218,43 +225,43 @@ func (this *Blackboard) _getTreeData(treeScope string) *TreeData {
  * @param {String} nodeScope The node id if accessing the node memory.
  * @return {Object} The value stored or undefined.
 **/
-func (this *Blackboard) Get(key, treeScope, nodeScope string) interface{} {
+func (this *Blackboard) Get(key, treeScope, nodeScope config.NodeID) interface{} {
 	memory := this._getMemory(treeScope, nodeScope)
 	return memory.Get(key)
 }
 func (this *Blackboard) GetMem(key string) interface{} {
-	memory := this._getMemory("","")
+	memory := this._getMemory("", "")
 	return memory.Get(key)
 }
-func (this *Blackboard) GetFloat64(key, treeScope, nodeScope string) float64 {
+func (this *Blackboard) GetFloat64(key, treeScope string, nodeScope config.NodeID) float64 {
 	v := this.Get(key, treeScope, nodeScope)
 	if v == nil {
 		return 0
 	}
 	return v.(float64)
 }
-func (this *Blackboard) GetBool(key, treeScope, nodeScope string) bool {
+func (this *Blackboard) GetBool(key, treeScope string, nodeScope config.NodeID) bool {
 	v := this.Get(key, treeScope, nodeScope)
 	if v == nil {
 		return false
 	}
 	return v.(bool)
 }
-func (this *Blackboard) GetInt(key, treeScope, nodeScope string) int {
+func (this *Blackboard) GetInt(key, treeScope string, nodeScope config.NodeID) int {
 	v := this.Get(key, treeScope, nodeScope)
 	if v == nil {
 		return 0
 	}
 	return v.(int)
 }
-func (this *Blackboard) GetInt64(key, treeScope, nodeScope string) int64 {
+func (this *Blackboard) GetInt64(key, treeScope string, nodeScope config.NodeID) int64 {
 	v := this.Get(key, treeScope, nodeScope)
 	if v == nil {
 		return 0
 	}
 	return v.(int64)
 }
-func (this *Blackboard) GetUInt64(key, treeScope, nodeScope string) uint64 {
+func (this *Blackboard) GetUInt64(key, treeScope string, nodeScope config.NodeID) uint64 {
 	v := this.Get(key, treeScope, nodeScope)
 	if v == nil {
 		return 0
@@ -262,14 +269,14 @@ func (this *Blackboard) GetUInt64(key, treeScope, nodeScope string) uint64 {
 	return v.(uint64)
 }
 
-func (this *Blackboard) GetInt64Safe(key, treeScope, nodeScope string) int64 {
+func (this *Blackboard) GetInt64Safe(key, treeScope string, nodeScope config.NodeID) int64 {
 	v := this.Get(key, treeScope, nodeScope)
 	if v == nil {
 		return 0
 	}
 	return ReadNumberToInt64(v)
 }
-func (this *Blackboard) GetUInt64Safe(key, treeScope, nodeScope string) uint64 {
+func (this *Blackboard) GetUInt64Safe(key, treeScope string, nodeScope config.NodeID) uint64 {
 	v := this.Get(key, treeScope, nodeScope)
 	if v == nil {
 		return 0
@@ -277,7 +284,7 @@ func (this *Blackboard) GetUInt64Safe(key, treeScope, nodeScope string) uint64 {
 	return ReadNumberToUInt64(v)
 }
 
-func (this *Blackboard) GetInt32(key, treeScope, nodeScope string) int32 {
+func (this *Blackboard) GetInt32(key, treeScope string, nodeScope config.NodeID) int32 {
 	v := this.Get(key, treeScope, nodeScope)
 	if v == nil {
 		return 0
@@ -285,7 +292,7 @@ func (this *Blackboard) GetInt32(key, treeScope, nodeScope string) int32 {
 	return v.(int32)
 }
 
-func ReadNumberToInt64(v interface{})  int64 {
+func ReadNumberToInt64(v interface{}) int64 {
 	var ret int64
 	switch tvalue := v.(type) {
 	case uint64:
@@ -307,6 +314,7 @@ func ReadNumberToUInt64(v interface{}) uint64 {
 	}
 	return ret
 }
+
 //
 //func ReadNumberToInt32(v interface{}) int32 {
 //	var ret int32

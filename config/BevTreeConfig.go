@@ -6,10 +6,12 @@ import (
 	"io/ioutil"
 )
 
+type NodeID string
+
 //编辑器地址@http://editor.behavior3.com/#/editor
 //节点json类型
 type BTNodeCfg struct {
-	Id          string                 `json:"id"`
+	ID          NodeID                 `json:"id"`
 	Name        string                 `json:"name"`
 	Category    string                 `json:"category"`
 	Title       string                 `json:"title"`

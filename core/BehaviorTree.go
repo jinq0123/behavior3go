@@ -299,17 +299,10 @@ func (this *BehaviorTree) Tick(target interface{}, blackboard *Blackboard) b3.St
 	var currOpenNodes = tick._openNodes
 
 	// does not close if it is still open in this tick
-	var start = 0
-	for i := 0; i < minInt(len(lastOpenNodes), len(currOpenNodes)); i++ {
-		start = i + 1
-		if lastOpenNodes[i] != currOpenNodes[i] {
-			break
+	for id, node := range lastOpenNodes {
+		if _, ok := currOpenNodes[id]; !ok {
+			node._close(tick)
 		}
-	}
-
-	// close the nodes
-	for i := len(lastOpenNodes) - 1; i >= start; i-- {
-		lastOpenNodes[i]._close(tick)
 	}
 
 	/* POPULATE BLACKBOARD */
