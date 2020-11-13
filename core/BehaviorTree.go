@@ -285,7 +285,7 @@ func (this *BehaviorTree) Tick(target interface{}, blackboard *Blackboard) b3.St
 	}
 
 	/* CREATE A TICK OBJECT */
-	var tick = NewTick()
+	var tick = NewTick() // 每次都会新建
 	tick.debug = this.debug
 	tick.target = target
 	tick.Blackboard = blackboard

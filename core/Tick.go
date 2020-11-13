@@ -1,9 +1,5 @@
 package core
 
-import (
-	_ "fmt"
-)
-
 /**
  * A new Tick object is instantiated every tick by BehaviorTree. It is passed
  * as parameter to the nodes through the tree during the traversal.
@@ -73,27 +69,7 @@ type Tick struct {
 }
 
 func NewTick() *Tick {
-	tick := &Tick{}
-	tick.Initialize()
-	return tick
-}
-
-/**
- * Initialization method.
- * @method Initialize
- * @construCtor
-**/
-func (this *Tick) Initialize() {
-	// set by BehaviorTree
-	this.tree = nil
-	this.debug = nil
-	this.target = nil
-	this.Blackboard = nil
-
-	// updated during the tick signal
-	this._openNodes = nil
-	this._openSubtreeNodes = nil
-	this._nodeCount = 0
+	return &Tick{}
 }
 
 func (this *Tick) GetTree() *BehaviorTree {
@@ -109,7 +85,6 @@ func (this *Tick) GetTree() *BehaviorTree {
 func (this *Tick) _enterNode(node IBaseNode) {
 	this._nodeCount++
 	this._openNodes = append(this._openNodes, node)
-
 	// TODO: call debug here
 }
 
@@ -148,7 +123,6 @@ func (this *Tick) _closeNode(node *BaseNode) {
 	if ulen > 0 {
 		this._openNodes = this._openNodes[:ulen-1]
 	}
-
 }
 
 func (this *Tick) pushSubtreeNode(node *SubTree) {
