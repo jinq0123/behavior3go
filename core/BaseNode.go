@@ -190,7 +190,7 @@ func (this *BaseNode) Execute(tick *Tick) b3.Status {
 
 	// CLOSE
 	if status != b3.RUNNING {
-		this._close(tick)
+		this._close(tick) // 结束运行后关闭节点
 	}
 
 	// EXIT
